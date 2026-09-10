@@ -4,6 +4,7 @@ import com.gamebasic.game.dto.CreateRequest;
 import com.gamebasic.game.dto.GameDetailResponse;
 import com.gamebasic.game.dto.GameSummaryResponse;
 import com.gamebasic.game.dto.ProgressRequest;
+import com.gamebasic.game.dto.RenameRequest;
 import com.gamebasic.game.entity.Game;
 import com.gamebasic.game.repository.GameRepository;
 import com.gamebasic.runcard.dto.CardResponse;
@@ -123,6 +124,18 @@ public class GameService {
         );
     }
 
-    // TODO (Lv 8): 플레이어 이름 변경 — 변경 감지로 수정
-    // TODO (Lv 8): 게임 삭제
+    @Transactional
+    public void renameGame(Long gameId, RenameRequest request) {
+        Game game = findGame(gameId);
+        game.rename(request.getPlayerName());
+        // save()를 호출하지 않아도, 트랜잭션 커밋 시점에 변경 감지(dirty checking)로 UPDATE 쿼리가 나간다.
+    }
+
+    @Transactional
+    public void deleteGame(Long gameId) {
+        Game game = findGame(gameId);
+        // 단방향 연관관계라 자식(RunCard)을 Repository로 먼저 명시적으로 지운 뒤 부모(Game)를 지운다.
+        runCardRepository.deleteAllByGame(game);
+        gameRepository.delete(game);
+    }
 }
