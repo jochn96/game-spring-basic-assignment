@@ -1,10 +1,6 @@
 # Crimson Citadel — Game Spring Basic Assignment
 
 
-```
-
-
-
 - Lv 1. 설정 파일 작성: Docker MySQL 연결
     `application.properties`를 새로 작성해 MySQL 접속 정보를 설정하고, `ddl-auto=update`로 재시작 후에도 데이터가 유지되도록 함.
  
@@ -28,5 +24,4 @@
 
 - Lv 8. 더티 체킹: 이름 수정, 자식부터 삭제
     변경 감지(dirty checking)로 이름을 수정하고, 연관관계가 단방향이라 `RunCard`를 먼저 삭제한 뒤 `Game`을 삭제하도록 구현.
-
 
